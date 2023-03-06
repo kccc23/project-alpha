@@ -5,7 +5,8 @@
         <div>
             <h1>{{ project.name }}</h1>
             <p>{{ project.description }}</p>
-            <h1>Tasks</h1>
+            <h2>Tasks</h2>
+            <p><a href="{% url 'create_task' %}"></a></p>
             {% if project.tasks.all|length != 0 %}
                 <table>
                     <thead>
