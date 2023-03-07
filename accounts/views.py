@@ -5,6 +5,7 @@ from accounts.forms import LogInForm, SignUpForm
 
 # Create your views here.
 
+
 def user_login(request):
     if request.method == "POST":
         form = LogInForm(request.POST)
@@ -22,9 +23,11 @@ def user_login(request):
     }
     return render(request, "accounts/login.html", context)
 
+
 def user_logout(request):
     logout(request)
     return redirect("login")
+
 
 def user_signup(request):
     if request.method == "POST":

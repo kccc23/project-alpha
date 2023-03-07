@@ -3,6 +3,7 @@ from django.conf import settings
 
 # Create your models here.
 
+
 class Task(models.Model):
     name = models.CharField(max_length=200)
     start_date = models.DateTimeField()
@@ -19,5 +20,6 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
+
     def __str__(self):
         return self.name
