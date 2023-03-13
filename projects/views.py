@@ -23,6 +23,14 @@ def show_project(request, id):
     return render(request, "projects/detail.html", context)
 
 @login_required
+def show_company(request, id):
+    company = get_object_or_404(Company, id=id)
+    context = {
+        "company": company,
+    }
+    return render(request, "companies/detail.html", context)
+
+@login_required
 def create_project(request):
     if request.method == "POST":
         form = ProjectForm(request.POST)

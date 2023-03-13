@@ -3,31 +3,29 @@
 {% block content %}
     <main>
         <div class="project-list">
-            <h1>My Projects</h1>
-            <div>
-                <p><a href="{% url 'create_project' %}">Create a new project</a></p>
-            </div>
-            {% if projects|length == 0 %}
-                <p>You are not assigned to any projects</p>
-            {% else %}
+            <h1>{{ company.name }}</h1>
+            <p>{{ company.description }}</p>
+            <h2>Projects</h2>
+            <p><a href="{% url 'create_project' %}">Create a new project</a></p>
+            {% if company.projects.all|length != 0 %}
                 <table>
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Number of tasks</th>
-                            <th>Company</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for project in projects %}
+                        {% for project in company.projects.all %}
                             <tr>
                                 <td><a href="{% url 'show_project' project.id %}">{{ project.name }}</a></td>
-                                <td>{{ project.tasks.all.count }}</td>
-                                <td><a href="{% url 'show_company' project.company.id %}">{{ project.company.name }}</a></td>
+                                <td>{{ project.description }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+            {% else %}
+                <p>This company has no projects</p>
             {% endif %}
         </div>
     </main>
