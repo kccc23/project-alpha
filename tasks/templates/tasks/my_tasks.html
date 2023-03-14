@@ -17,7 +17,7 @@
                     <tbody>
                         {% for task in tasks %}
                             <tr>
-                                <td>{{ task.name }}</td>
+                                <td><a href="{% url 'add_note' task.id %}">{{ task.name }}</a></td>
                                 <td>{{ task.start_date }}</td>
                                 <td>{{ task.due_date }}</td>
                                 <td>{{ task.is_completed|yesno }}</td>

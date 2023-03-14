@@ -20,6 +20,7 @@ class Task(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
+    note = models.TextField(null=True)
 
     def __str__(self):
         return self.name
