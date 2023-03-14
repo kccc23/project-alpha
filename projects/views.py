@@ -53,22 +53,29 @@ def create_project(request):
 def view_timeline(request, id):
     project = get_object_or_404(Project, id=id)
     tasks = project.tasks.all()
-    data = [
-        {
-            "Task": task.name,
-            "Start": task.start_date,
-            "Due": task.due_date,
-            "Assignee": task.assignee
-        } for task in tasks
-    ]
-    df = pandas.DataFrame(data)
-    fig = px.timeline(
-        df, x_start="Start", x_end="Due",
-        y="Task", color="Assignee"
-    )
-    fig.update_yaxes(autorange="reversed")
-    gantt_plot = plot(fig, output_type="div")
-    context = {
-        "plot_div": gantt_plot
-    }
-    return render(request, "projects/time.html", context)
+    if len(tasks) != 0:
+        data = [
+            {
+                "Task": task.name,
+                "Start": task.start_date,
+                "Due": task.due_date,
+                "Assignee": task.assignee
+            } for task in tasks
+        ]
+        df = pandas.DataFrame(data)
+        fig = px.timeline(
+            df, x_start="Start", x_end="Due",
+            y="Task", color="Assignee"
+        )
+        fig.update_yaxes(autorange="reversed")
+        gantt_plot = plot(fig, output_type="div")
+        context = {
+            "plot_div": gantt_plot,
+            "project": project,
+        }
+        return render(request, "projects/time.html", context)
+    else:
+        context = {
+            "project": project,
+        }
+        return render(request, "projects/time.html", context)

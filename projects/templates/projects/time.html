@@ -2,8 +2,15 @@
 
 {% block content %}
     <main>
-        {% autoescape off %}
-            {{ plot_div }}
-        {% endautoescape %}
+        <div class="project-detail">
+            <h1>{{ project.name }}</h1>
+            {% if project.tasks.all|length != 0 %}
+                {% autoescape off %}
+                    {{ plot_div }}
+                {% endautoescape %}
+            {% else %}
+                <p>This project has no timeline</p>
+            {% endif %}
+        </div>
     </main>
 {% endblock content %}
