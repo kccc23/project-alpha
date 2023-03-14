@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from projects.models import Project, Company
 from projects.forms import ProjectForm
+import pandas
+import plotly.express as px
+from plotly.offline import plot
 
 # Create your views here.
 
@@ -45,3 +48,27 @@ def create_project(request):
         "form": form,
     }
     return render(request, "projects/create.html", context)
+
+@login_required
+def view_timeline(request, id):
+    project = get_object_or_404(Project, id=id)
+    tasks = project.tasks.all()
+    data = [
+        {
+            "Task": task.name,
+            "Start": task.start_date,
+            "Due": task.due_date,
+            "Assignee": task.assignee
+        } for task in tasks
+    ]
+    df = pandas.DataFrame(data)
+    fig = px.timeline(
+        df, x_start="Start", x_end="Due",
+        y="Task", color="Assignee"
+    )
+    fig.update_yaxes(autorange="reversed")
+    gantt_plot = plot(fig, output_type="div")
+    context = {
+        "plot_div": gantt_plot
+    }
+    return render(request, "projects/time.html", context)
